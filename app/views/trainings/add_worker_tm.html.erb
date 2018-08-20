@@ -1,0 +1,78 @@
+<%= stylesheet_link_tag    '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css', media: 'all', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+<%= csrf_meta_tags %>
+<!--
+#% provide(:title, "Mitarbeiter hinzufügen") %>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+
+      <h1>Mitarbeiter hinzufügen</h1>
+      #%= link_to "Training suchen", search_trainings_path, id: "find_box", remote: true %>
+      <br><br>
+    <h3>Training: </h3>
+    #%= select_tag('training_id', options_from_collection_for_select(Training.all, 'id', 'name'), label: "Training:") %>
+    <br><br>
+    <h3>Gültigkeit in Tagen: </h3>
+    #%= text_field_tag('duration') %>
+    <br><br>
+    <h3>Prüfungstermin: </h3>
+    #%= text_field_tag('date') %>
+    <!-- = submit_tag('training_submit', label: "Training wählen") %>-->
+    <!-- <table>
+  <tr>
+    <th style="width: 25px"></th>
+    <th style="width: 225px">#%= sort_link "name"%></th>
+    <th style="width: 125px">#%= sort_link "position_id" %></th>
+    <th style="width: 125px">#%= sort_link "line_ids" %></th>
+    <th style="width: 125px">#%= sort_link "shift_id" %></th>
+  </tr>
+  #% @workers.each do |worker| %>
+    <tr>
+      <td>#%= check_box_tag "worker_ids", worker.id %></td>
+      <td>#%=  worker.name %></td>
+      <td>#%=  Position.find(worker.position_id).name %></td>
+      <td>#%  Line.find(worker.line_ids).each do |line| %>
+          #%= line.name %>
+          #% end %></td>
+      <td>#%=  Shift.find(worker.shift_id).name %></td>
+    </tr>
+  #% end %>
+</table>
+    <h3>PDF-Protokoll</h3>
+      #%= file_field_tag("attachement") %>
+    <h3>Bemerkung</h3>
+    #%= text_field_tag("comment") %>
+      #%= button_to "Training bearbeiten", {:action => :addworkers_tm}, class: "btn btn-primary" %>
+  </div>
+</div>
+-->
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= simple_form_for(@trainingmem = Trainingsmembership.new, url: add_worker_tm_trainings_path) do |f| %>
+      <%= f.input :training_id, collection: Training.all, label_method: :name, value_method: :id, label: 'Training:', include_blank: false %>
+      <%= f.input :duration, label: 'Gültigkeit:' %>
+      <%= f.input :date, :as => :string, :input_html => { data: {behaviour: "datepicker"}}, label: 'Prüfungstermin:' %>
+      <%= f.input :worker_id, collection: Worker.all, label_method: :name, value_method: :id, label: 'Mitarbeiter', include_blank: false, input_html: { multiple: true } %>
+      <%= f.input :comment, as: :text, label: 'Bemerkung:' %>
+      <%= f.input :attachement, as: :file, label: 'PDF-Protokoll:' %>
+      <%= f.submit "Training bearbeiten", class: "btn btn-primary" %>
+    <% end %>
+    <script type="text/javascript">
+        $('#micropost_picture').bind('change', function() {
+            var size_in_megabytes = this.files[0].size/1024/1024;
+            if (size_in_megabytes > 5) {
+                alert('Maximum file size is 5MB. Please choose a smaller file.');
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        $('[data-behaviour~=datepicker]').datepicker({
+            "format": "dd.mm.yyyy",
+            "weekStart": 1,
+            "autoclose": true
+        });
+    </script>
+  </div>
+</div>
