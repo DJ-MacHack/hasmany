@@ -54,7 +54,7 @@
       <%= f.input :training_id, collection: Training.all, label_method: :name, value_method: :id, label: 'Training:', include_blank: false %>
       <%= f.input :duration, label: 'Gültigkeit:' %>
       <%= f.input :date, :as => :string, :input_html => { data: {behaviour: "datepicker"}}, label: 'Prüfungstermin:' %>
-      <%= f.input :worker_id, collection: Worker.all, label_method: :name, value_method: :id, label: 'Mitarbeiter', include_blank: false, input_html: { multiple: true } %>
+      <%= f.input :worker_id, collection: Worker.all, label_method: :name, value_method: :id, label: 'Mitarbeiter', include_blank: false, input_html: { multiple: false } %>
       <%= f.input :comment, as: :text, label: 'Bemerkung:' %>
       <%= f.input :attachement, as: :file, label: 'PDF-Protokoll:' %>
       <%= f.submit "Training bearbeiten", class: "btn btn-primary" %>

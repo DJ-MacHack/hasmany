@@ -71,7 +71,7 @@ class TrainingsController < ApplicationController
     @tm = Trainingsmembership.new(tm_params)
     if @tm.save
       flash[:success] = "Mitarbeiter eingefügt"
-      redirect_to training_path
+      redirect_to root_path
     else
       @tm.errors
       render 'add_worker_tm'
@@ -97,7 +97,7 @@ class TrainingsController < ApplicationController
   end
 
   def tm_params
-    params.require(:trainingsmembership).permit(:training_id, :duration, :date, :attachement, :comment, worker_id: [])
+    params.require(:trainingsmembership).permit(:training_id, :duration, :date, :attachement, :comment, :worker_id)
   end
 
   # Confirms a logged-in user.
